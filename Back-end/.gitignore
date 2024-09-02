@@ -1,0 +1,7 @@
+venv
+api/__pycache__
+api/migrations/__pycache__
+node_modules
+static/__pycache__
+store/__pycache__
+userauths/__pycache__
