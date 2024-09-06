@@ -7,6 +7,7 @@ import Dashboard from './views/auth/Dashboard'
 import Logout from './views/auth/Logout'
 import StoreHeader from './views/base/StoreHeader'
 import StoreFooter from './views/base/StoreFooter'
+import Products from './views/store/Products'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,7 +19,8 @@ function App() {
           <Route path='/login' element={<Login />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/logout' element={<Logout />}/>
-          <Route path='/' element={<Dashboard />}/>
+          <Route path='/dashboard' element={<Dashboard />}/>
+          <Route path='/' element={<Products />}/>
         </Routes>
       <StoreFooter />
     </BrowserRouter>
