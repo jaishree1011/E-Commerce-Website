@@ -1,14 +1,24 @@
 import React, {useEffect, useState} from 'react'
 import apiInstance from '../../utils/axios'
+import { Link } from 'react-router-dom'
 
 function Products() {
   const [products, setProducts] = useState([])
+  const [category, setCategory] = useState([])
 
   useEffect(() => {
     apiInstance.get(`http://127.0.0.1:8000/api/v1/products/`).then((response) => {
       setProducts(response.data)
     })
   },[])
+
+  useEffect(() => {
+    apiInstance.get(`http://127.0.0.1:8000/api/v1/category/`).then((res) => {
+      setCategory(res.data)
+    })
+  },[])
+
+  console.log(category);
       
   return (
     <>
@@ -21,12 +31,14 @@ function Products() {
               <div className="col-lg-4 col-md-12 mb-4">
               <div className="card">
               <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-              <img src={p.image} className="w-100" style={{width:"100%", height:"250px", objectFit:"cover"}}/>
+              <Link to={`/detail/${p.slug}`}>
+                  <img src={p.image} className="w-100" style={{width:"100%", height:"250px", objectFit:"cover"}}/>
+              </Link>
                   </div>
                   <div className="card-body">
-                    <a href="" className="text-reset">
+                    <Link to={`/detail/${p.slug}`} href="" className="text-reset">
                       <h5 className="card-title mb-3">{p.title}</h5>
-                    </a>
+                    </Link>
                     <a href="" className="text-reset">
                       <p>{p.category?.title}</p>
                     </a>
@@ -122,11 +134,16 @@ function Products() {
             </div>
             )
             )}
-
+            <div className='row'>
+              {category?.map((c, index) => (
+              <div className='col-lg-2' key={index}>
+                <img src={c.image} style={{width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover"}} alt="" />
+                <h6>{c.title}</h6>
+              </div>
+              ))}
+            </div>
           
         </div>
-
-
       </section>
       {/*Section: Wishlist*/}
     </div>
