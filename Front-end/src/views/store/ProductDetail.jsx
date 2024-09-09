@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import apiInstance from '../../utils/axios'
 
 import GetCurrentAddress from '../plugin/UserCountry'
+import UserData from '../plugin/UserData'
 
 function ProductDetail() {
   const [product, setProduct] = useState({})
@@ -19,7 +20,7 @@ function ProductDetail() {
 
   const param = useParams()
   const currentAddress = GetCurrentAddress()
-
+  const userData = UserData()  
   
 
   useEffect(() => {
@@ -40,13 +41,14 @@ function ProductDetail() {
     }
 
     const handleAddToCart = (event) =>{
+        console.log("User ID:",userData?.user_id);
         console.log("Product ID:",product.id)
         console.log("Price:",product.price)
         console.log("Shipping Amount:",product.shipping_amount)
         console.log("Qty:",qtyValue)
         console.log("Size:",sizeValue)
         console.log("Color:",colorValue)
-        console.log("Country:",currentAddress.country);
+        console.log("Country:",currentAddress.country)
     }
 
 
