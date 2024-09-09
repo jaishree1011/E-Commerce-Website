@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import apiInstance from '../../utils/axios'
 
+import GetCurrentAddress from '../plugin/UserCountry'
+
 function ProductDetail() {
   const [product, setProduct] = useState({})
   const [specifications, setSpecifications] = useState([])
@@ -10,7 +12,43 @@ function ProductDetail() {
   const [color, setColor] = useState([])
   const [size, setSize] = useState([])
 
+  const [colorValue, setColorValue] = useState("No Color")
+  const [sizeValue, setSizeValue] = useState("No Size")
+  const [qtyValue, setQtyValue] =useState(1)
+
+
   const param = useParams()
+  const currentAddress = GetCurrentAddress()
+
+  
+
+  useEffect(() => {
+  },[])
+
+  const handleColorButtonClick = (event) => {
+    const colorNameInput = event.target.closest('.color_button').parentNode.querySelector('.color_name')
+    setColorValue(colorNameInput.value)
+}
+
+   const handleSizeButtonClick = (event) => {
+    const sizeNameInput = event.target.closest('.size_button').parentNode.querySelector('.size_name')
+    setSizeValue(sizeNameInput.value)
+}
+
+    const handleQuantityChange = (event) => {
+        setQtyValue(event.target.value)
+    }
+
+    const handleAddToCart = (event) =>{
+        console.log("Product ID:",product.id)
+        console.log("Price:",product.price)
+        console.log("Shipping Amount:",product.shipping_amount)
+        console.log("Qty:",qtyValue)
+        console.log("Size:",sizeValue)
+        console.log("Color:",colorValue)
+        console.log("Country:",currentAddress.country);
+    }
+
 
   useEffect(() =>{
     apiInstance.get(`http://127.0.0.1:8000/api/v1/products/${param.slug}/`).then((res) => {
@@ -122,8 +160,8 @@ function ProductDetail() {
                             </table>
                         </div>
                         <hr className="my-5" />
-                        <form action="">
-                            <div className="rfow flex-column">
+                        <div>
+                            <div className="rfow">
                                 {/* Quantity */}
                                 <div className="col-md-6 mb-4">
                                     <div className="form-outline">
@@ -133,39 +171,55 @@ function ProductDetail() {
                                             id="typeNumber"
                                             className="form-control quantity"
                                             min={1}
-                                            value={1}
+                                            value={qtyValue}
+                                            onChange={handleQuantityChange}
                                         />
                                     </div>
                                 </div>
 
                                 {/* Size */}
+                                {size.length > 0 &&
+                                <>
+                                <h6>Size: <span>{sizeValue}</span></h6>
                                 <div className="col-md-6 mb-4">
-                                    <div className="">
+                                    <div className="d-flex">
                                       {size?.map((s, index) => (
-                                        <button key={index} className='btn btn-secondary ms-2'>{s.name}</button>
+                                          <div>
+                                        <input type='hidden' className='size_name' value={s.name} />
+                                        <button key={index} className='btn btn-secondary m-1 size_button' type='button' onClick={handleSizeButtonClick}>{s.name}</button>
+                                      </div>
                                       )) }
                                     </div>
                                     <hr />
                                 </div>
+                                </>
+                                }
                                 {/* Colors */}
-
+                                {color.length > 0 && 
+                                <>
+                                <h6>Color: <span>{colorValue}</span></h6>
                                 <div className="col-md-6 mb-4">
-                                    <div className="">
+                                    <div className="d-flex">
                                       {color?.map((c, index) => (
-                                        <button className='btn p-3 ms-2' style={{backgroundColor: `${c.color_code}`}}></button>
+                                          <div>
+                                    <input type='hidden' className='color_name' value={c.name} name='' id='' />
+                                    <button key={index} className='btn p-3 m-1 color_button' type='button' onClick={handleColorButtonClick} style={{backgroundColor: `${c.color_code}`}}></button>
+                                    </div>
                                       ))}
                                     </div>
                                     <hr />
                                 </div>
+                                </>
+                                }
 
                             </div>
-                            <button type="button" className="btn btn-primary btn-rounded me-2">
+                            <button type="button" className="btn btn-primary btn-rounded me-2" onClick={handleAddToCart}>
                                 <i className="fas fa-cart-plus me-2" /> Add to cart
                             </button>
                             <button href="#!" type="button" className="btn btn-danger btn-floating" data-mdb-toggle="tooltip" title="Add to wishlist">
                                 <i className="fas fa-heart" />
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
