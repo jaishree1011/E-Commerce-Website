@@ -1,6 +1,6 @@
 import React from "react";
 
-function CardID() {
+function CartID() {
     const generateRandomString = () =>{
 
         const length = 30
@@ -17,4 +17,4 @@ function CardID() {
     return 
 }
 
-export default CardID
+export default CartID
