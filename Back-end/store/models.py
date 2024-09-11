@@ -128,7 +128,7 @@ class Color(models.Model):
 class Cart(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     qty = models.PositiveIntegerField(default=0, null=True, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=12, default=0.00, null=True, blank=True)
     sub_total = models.DecimalField(decimal_places=2, max_digits=12, default=0.00, null=True, blank=True)
@@ -313,6 +313,7 @@ class Tax(models.Model):
     country = models.CharField(max_length=100)
     rate = models.IntegerField(default=5, help_text="Numbers added here are in percentage e.g 5%")
     date = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.country
