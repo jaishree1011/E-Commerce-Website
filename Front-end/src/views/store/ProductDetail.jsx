@@ -5,8 +5,6 @@ import apiInstance from '../../utils/axios'
 
 import GetCurrentAddress from '../plugin/UserCountry'
 import UserData from '../plugin/UserData'
-import { API_BASE_URL } from '../../utils/constants'
-import CartID from '../plugin/CartId'
 
 function ProductDetail() {
   const [product, setProduct] = useState({})
@@ -23,8 +21,7 @@ function ProductDetail() {
   const param = useParams()
   const currentAddress = GetCurrentAddress()
   const userData = UserData()  
-  const cart_id = CartID()
-
+  
 
   useEffect(() => {
   },[])
@@ -43,31 +40,20 @@ function ProductDetail() {
         setQtyValue(event.target.value)
     }
 
-    const handleAddToCart = async() =>{
-    try{
-
-        const formdata = new FormData()
-        
-        formdata.append("product",product.id)
-        formdata.append("user",userData?.user_id)
-        formdata.append("cart_id",cart_id)
-        formdata.append("price",product.price)
-        formdata.append("shipping_amount",product.shipping_amount)
-        formdata.append("qty",qtyValue)
-        formdata.append("size",sizeValue)
-        formdata.append("color",colorValue)
-        formdata.append("country",currentAddress.country)
-        
-        const response = await apiInstance.post(`${API_BASE_URL}cart-view/`,formdata)
-        console.log(response.data)
-    } catch(error){
-        console.log(error)
-    }
+    const handleAddToCart = (event) =>{
+        console.log("User ID:",userData?.user_id);
+        console.log("Product ID:",product.id)
+        console.log("Price:",product.price)
+        console.log("Shipping Amount:",product.shipping_amount)
+        console.log("Qty:",qtyValue)
+        console.log("Size:",sizeValue)
+        console.log("Color:",colorValue)
+        console.log("Country:",currentAddress.country)
     }
 
 
   useEffect(() =>{
-    apiInstance.get(`${API_BASE_URL}products/${param.slug}/`).then((res) => {
+    apiInstance.get(`http://127.0.0.1:8000/api/v1/products/${param.slug}/`).then((res) => {
       setProduct(res.data)
       setSpecifications(res.data.specification)
       setGallery(res.data.gallery)

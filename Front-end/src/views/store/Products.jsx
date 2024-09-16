@@ -28,7 +28,7 @@ function Products() {
         <div className="row">
             {products?.map((p, index) => (
 
-              <div className="col-lg-4 col-md-12 mb-4" key={index}>
+              <div className="col-lg-4 col-md-12 mb-4">
               <div className="card">
               <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
               <Link to={`/detail/${p.slug}`}>
