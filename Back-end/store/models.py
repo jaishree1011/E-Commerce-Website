@@ -127,8 +127,8 @@ class Color(models.Model):
     
 class Cart(models.Model):
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True,null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True, blank=True)
     qty = models.PositiveIntegerField(default=0, null=True, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=12, default=0.00, null=True, blank=True)
     sub_total = models.DecimalField(decimal_places=2, max_digits=12, default=0.00, null=True, blank=True)
@@ -237,11 +237,11 @@ class ProductFaq(models.Model):
     
 class Review(models.Model):
     RATING = (
-    ( 1,  "★☆☆☆☆"),
-    ( 2,  "★★☆☆☆"),
-    ( 3,  "★★★☆☆"),
-    ( 4,  "★★★★☆"),
-    ( 5,  "★★★★★"),
+    ( 1,  "1 star"),
+    ( 2,  "2 star"),
+    ( 3,  "3 star"),
+    ( 4,  "4 star"),
+    ( 5,  "5 star"),
 )
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
