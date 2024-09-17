@@ -14,7 +14,13 @@ function CartID() {
 
         localStorage,setItem("randomString",randomString)
     }
-    return 
+    const existingRandomString = localStorage.getItem("randomString")
+    if(!existingRandomString){
+        generateRandomString()
+    } else {
+
+    }
+    return existingRandomString
 }
 
 export default CartID

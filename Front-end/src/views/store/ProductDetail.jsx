@@ -5,6 +5,7 @@ import apiInstance from '../../utils/axios'
 
 import GetCurrentAddress from '../plugin/UserCountry'
 import UserData from '../plugin/UserData'
+import CartID from '../plugin/CartId'
 
 function ProductDetail() {
   const [product, setProduct] = useState({})
@@ -20,11 +21,10 @@ function ProductDetail() {
 
   const param = useParams()
   const currentAddress = GetCurrentAddress()
-  const userData = UserData()  
+  const userData = UserData() 
+  const cart_id = CartID()  
+ 
   
-
-  useEffect(() => {
-  },[])
 
   const handleColorButtonClick = (event) => {
     const colorNameInput = event.target.closest('.color_button').parentNode.querySelector('.color_name')
@@ -40,16 +40,41 @@ function ProductDetail() {
         setQtyValue(event.target.value)
     }
 
-    const handleAddToCart = (event) =>{
-        console.log("User ID:",userData?.user_id);
-        console.log("Product ID:",product.id)
-        console.log("Price:",product.price)
-        console.log("Shipping Amount:",product.shipping_amount)
-        console.log("Qty:",qtyValue)
-        console.log("Size:",sizeValue)
-        console.log("Color:",colorValue)
-        console.log("Country:",currentAddress.country)
-    }
+    const handleAddToCart =async () =>{
+
+        //console.log("User ID:",userData?.user_id);
+        //console.log("Product ID:",product.id)
+        //console.log("Price:",product.price)
+        //console.log("Shipping Amount:",product.shipping_amount)
+        //console.log("Qty:",qtyValue)
+        //console.log("Size:",sizeValue)
+        //console.log("Color:",colorValue)
+        //console.log("Country:",currentAddress.country)
+        //console.log("Cart ID:",cart_id);
+
+        try {
+            const formdata = new FormData()
+    
+            formdata.append("product",product.id)
+            formdata.append("user",userData?.user_id)
+            formdata.append("qty",qtyValue)
+            formdata.append("price",product.price)
+            formdata.append("shipping_amount",product.shipping_amount)
+            formdata.append("country",currentAddress.country)
+            formdata.append("size",sizeValue)
+            formdata.append("cart_id",cart_id)
+            formdata.append("color",colorValue)
+         
+    
+            const response =await apiInstance.post(`cart-view/`,formdata)
+            console.log(response.data)
+           } catch (error) {
+            console.log(error);
+            
+           }
+        }
+        
+    
 
 
   useEffect(() =>{
