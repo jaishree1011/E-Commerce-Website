@@ -1,12 +1,20 @@
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../store/auth";
 
 function StoreHeader() {
+  const [isLoggedIn, user] = useAuthStore((state) => [
+      state.isLoggedIn,
+      state.user,
+  ])
+
+
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            Jaishree Test
+            Jaishree's
           </Link>
           <button
             className="navbar-toggler"
@@ -165,12 +173,19 @@ function StoreHeader() {
                 Search
               </button>
             </div>
-            <Link className="btn btn-primary me-2" to="/login">
-              Login
-            </Link>
-            <Link className="btn btn-primary me-2" to="/register">
-              Register
-            </Link>
+            {isLoggedIn()
+              ? <>
+              <Link className="btn btn-primary me-2" to="/dashboard">Dashboard</Link>
+              <Link className="btn btn-primary me-2" to="/logout">Logout</Link>
+            </>
+            :
+            <>
+              <Link className="btn btn-primary me-2" to="/login">Login</Link>
+              <Link className="btn btn-primary me-2" to="/register">Register</Link>
+
+
+            </>
+            }
             <Link className="btn btn-danger" to="/cart/">
               <i className="fas fa-shopping-cart"></i>{" "}
               <span id="cart-total-items">0</span>
