@@ -12,7 +12,7 @@ function CartID() {
             randomString += characters.charAt(randomIndex)
         }
 
-        localStorage,setItem("randomString",randomString)
+        localStorage.setItem("randomString",randomString)
     }
     const existingRandomString = localStorage.getItem("randomString")
     if(!existingRandomString){
